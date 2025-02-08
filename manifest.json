@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "pr-snap",
+  "version": "1.0",
+  "description": "PR-Snap is a Chrome extension that helps you quickly copy GitHub pull request links with titles in various formats for easy sharing.",
+  "permissions": ["clipboardWrite", "activeTab", "scripting", "storage"],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    },
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://github.com/*/pull/*"],
+      "js": ["content.js", "popup.js"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "copy_pr_link_shortcut": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+G"
+      },
+      "description": "Copy GitHub PR ink"
+    }
+  }
+}
