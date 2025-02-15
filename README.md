@@ -16,7 +16,7 @@ PR-Snap is a Chrome extension that helps you quickly copy GitHub pull request li
 
 ## Installation 🚀
 
-1. Visit the Chrome Web Store (link coming soon)
+1. Visit the [Chrome Web Store](https://chromewebstore.google.com/detail/pr-snap/baphiillgilhdholeecgdochmkafbidf?hl=ko&utm_source=ext_sidebar)
 2. Click "Add to Chrome"
 3. Confirm the installation
 
