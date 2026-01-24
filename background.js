@@ -75,6 +75,90 @@ chrome.commands.onCommand.addListener((command) => {
       chrome.scripting.executeScript({
         target: { tabId: tabs[0].id },
         func: async (url) => {
+          // Toast 메시지 표시 함수
+          const showToast = (message, isSuccess = true) => {
+            const existingToast = document.querySelector(".pr-snap-toast");
+            if (existingToast) {
+              existingToast.remove();
+            }
+
+            const toast = document.createElement("div");
+            toast.className = `pr-snap-toast ${isSuccess ? "pr-snap-toast-success" : "pr-snap-toast-error"}`;
+            toast.innerHTML = `
+              <span class="pr-snap-toast-icon">${isSuccess ? "✓" : "✕"}</span>
+              <span class="pr-snap-toast-message">${message}</span>
+            `;
+
+            if (!document.querySelector("#pr-snap-toast-style")) {
+              const style = document.createElement("style");
+              style.id = "pr-snap-toast-style";
+              style.textContent = `
+                .pr-snap-toast {
+                  position: fixed;
+                  top: 20px;
+                  right: 20px;
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  padding: 14px 20px;
+                  border-radius: 10px;
+                  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+                  font-size: 14px;
+                  font-weight: 500;
+                  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12), 0 4px 10px rgba(0, 0, 0, 0.06);
+                  z-index: 2147483647;
+                  animation: pr-snap-toast-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                  backdrop-filter: blur(10px);
+                }
+                .pr-snap-toast-success {
+                  background: linear-gradient(135deg, rgba(35, 134, 54, 0.95), rgba(46, 160, 67, 0.95));
+                  color: #ffffff;
+                  border: 1px solid rgba(255, 255, 255, 0.1);
+                }
+                .pr-snap-toast-error {
+                  background: linear-gradient(135deg, rgba(207, 34, 46, 0.95), rgba(218, 54, 51, 0.95));
+                  color: #ffffff;
+                  border: 1px solid rgba(255, 255, 255, 0.1);
+                }
+                .pr-snap-toast-icon {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  width: 22px;
+                  height: 22px;
+                  border-radius: 50%;
+                  background: rgba(255, 255, 255, 0.2);
+                  font-size: 12px;
+                  font-weight: bold;
+                }
+                .pr-snap-toast-message {
+                  letter-spacing: 0.3px;
+                }
+                @keyframes pr-snap-toast-slide-in {
+                  from { transform: translateX(100%); opacity: 0; }
+                  to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes pr-snap-toast-slide-out {
+                  from { transform: translateX(0); opacity: 1; }
+                  to { transform: translateX(100%); opacity: 0; }
+                }
+                .pr-snap-toast-hide {
+                  animation: pr-snap-toast-slide-out 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                }
+              `;
+              document.head.appendChild(style);
+            }
+
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+              toast.classList.add("pr-snap-toast-hide");
+              setTimeout(() => {
+                toast.remove();
+              }, 300);
+            }, 3000);
+          };
+
           try {
             const getHeaderElement = () => {
               return document.querySelector("h1.gh-header-title");
@@ -86,6 +170,7 @@ chrome.commands.onCommand.addListener((command) => {
                 "background: #cf222e; color: white; padding: 2px 6px; border-radius: 4px;",
                 "color: #cf222e; font-weight: bold;"
               );
+              showToast("PR 정보를 찾을 수 없습니다.", false);
               return;
             }
 
@@ -119,7 +204,7 @@ chrome.commands.onCommand.addListener((command) => {
             const clipboardData = createClipboardData[format](title, tag, url);
 
             const copyToClipboard = async ({ plainText, htmlText }) => {
-              const clipboardData = new ClipboardItem({
+              const clipboardItemData = new ClipboardItem({
                 "text/plain": new Blob([plainText], {
                   type: "text/plain",
                 }),
@@ -129,7 +214,7 @@ chrome.commands.onCommand.addListener((command) => {
               });
 
               await navigator.clipboard
-                .write([clipboardData])
+                .write([clipboardItemData])
                 .then(() => {
                   console.log(
                     "%c🔗 [PR-Snap] %cSuccessfully copied to clipboard!",
@@ -138,6 +223,7 @@ chrome.commands.onCommand.addListener((command) => {
                     "\n📋 Copied content:",
                     { format, plainText, htmlText }
                   );
+                  showToast("PR 링크가 복사되었습니다!", true);
                 })
                 .catch((err) => {
                   console.error(
@@ -146,6 +232,7 @@ chrome.commands.onCommand.addListener((command) => {
                     "color: #cf222e; font-weight: bold;",
                     err
                   );
+                  showToast("복사에 실패했습니다.", false);
                 });
             };
 
@@ -157,6 +244,7 @@ chrome.commands.onCommand.addListener((command) => {
               "color: #cf222e; font-weight: bold;",
               err
             );
+            showToast("복사에 실패했습니다.", false);
           }
         },
         args: [url],
