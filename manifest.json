@@ -38,9 +38,6 @@
   },
   "commands": {
     "copy_pr_link_shortcut": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+G"
-      },
       "description": "Copy GitHub PR link"
     }
   }

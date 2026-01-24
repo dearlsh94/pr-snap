@@ -10,9 +10,7 @@ PR-Snap is a Chrome extension that helps you quickly copy GitHub pull request li
   - ✅ Markdown Link
   - ✅ Plain Text
 - **Easy Access**: Works directly from the PR page
-- **Keyboard Shortcut**:
-  - ✅ Default shortcut: `Ctrl + Shift + G`
-  - 🔜 Customizable shortcuts (Coming soon)
+- **Keyboard Shortcut**: Customizable via browser settings
 
 ## Installation 🚀
 
@@ -24,13 +22,18 @@ PR-Snap is a Chrome extension that helps you quickly copy GitHub pull request li
 
 1. Navigate to any GitHub Pull Request page
 2. Either:
-   - Click the PR-Snap extension icon in your browser toolbar
-   - Use the keyboard shortcut `Ctrl + Shift + G`
-3. The PR link will be automatically copied to your clipboard in the default format
+   - Click the copy icon in the PR page header
+   - Use your configured keyboard shortcut
+3. The PR link will be automatically copied to your clipboard in the selected format
 
-## Upcoming Features 🔮
+## Customize Keyboard Shortcut ⌨️
 
-- Customizable keyboard shortcuts
+You can customize the keyboard shortcut in your browser's extension settings:
+
+- **Chrome**: `chrome://extensions/shortcuts`
+- **Arc**: `arc://extensions/shortcuts`
+- **Comet**: `comet://extensions/shortcuts`
+- **Edge**: `edge://extensions/shortcuts`
 
 ## Development 🛠️
 

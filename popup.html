@@ -194,6 +194,57 @@
         border-color: #0969da;
         box-shadow: 0 0 0 2px rgba(9, 105, 218, 0.3);
       }
+
+      /* Shortcut section */
+      .shortcut-description {
+        margin: 8px 0 4px 0;
+        color: #24292f;
+      }
+
+      .shortcut-hint {
+        margin: 8px 0 4px 0;
+        color: #57606a;
+        font-size: 12px;
+      }
+
+      .shortcut-links {
+        margin: 4px 0;
+        padding-left: 16px;
+      }
+
+      .shortcut-links li {
+        margin: 4px 0;
+      }
+
+      .settings-link {
+        color: #0969da;
+        text-decoration: none;
+        font-size: 12px;
+        cursor: pointer;
+      }
+
+      .settings-link:hover {
+        text-decoration: underline;
+      }
+
+      .copy-toast {
+        position: fixed;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #24292f;
+        color: #ffffff;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 12px;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        z-index: 1000;
+      }
+
+      .copy-toast.show {
+        opacity: 1;
+      }
     </style>
   </head>
   <body>
@@ -211,8 +262,8 @@
       <div class="section">
         <strong>How to use:</strong>
         <ul>
-          <li>Click extension icon in PR page</li>
-          <li>Use shortcut <span class="shortcut-key">Ctrl+Shift+G</span></li>
+          <li>Click the copy icon in PR page header</li>
+          <li>Or use keyboard shortcut</li>
         </ul>
       </div>
 
@@ -228,9 +279,14 @@
       </div>
 
       <div class="section">
-        <strong>Coming Soon</strong>
-        <ul>
-          <li>Customizable keyboard shortcuts</li>
+        <strong>Keyboard Shortcut</strong>
+        <p class="shortcut-hint">
+          Set your preferred shortcut in browser's extension settings:
+        </p>
+        <ul class="shortcut-links">
+          <li><a href="#" id="chromeShortcut" class="settings-link">Chrome: chrome://extensions/shortcuts</a></li>
+          <li><a href="#" id="arcShortcut" class="settings-link">Arc: arc://extensions/shortcuts</a></li>
+          <li><a href="#" id="cometShortcut" class="settings-link">Comet: comet://extensions/shortcuts</a></li>
         </ul>
       </div>
 
@@ -270,6 +326,33 @@
       </div>
     </div>
 
+    <div id="copyToast" class="copy-toast">URL copied to clipboard!</div>
+
     <script src="scripts/popup.js"></script>
+    <script>
+      // 단축키 설정 URL 클릭 시 클립보드에 복사
+      const copyToClipboard = (text) => {
+        navigator.clipboard.writeText(text).then(() => {
+          const toast = document.getElementById('copyToast');
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 2000);
+        });
+      };
+
+      document.getElementById('chromeShortcut').addEventListener('click', (e) => {
+        e.preventDefault();
+        copyToClipboard('chrome://extensions/shortcuts');
+      });
+
+      document.getElementById('arcShortcut').addEventListener('click', (e) => {
+        e.preventDefault();
+        copyToClipboard('arc://extensions/shortcuts');
+      });
+
+      document.getElementById('cometShortcut').addEventListener('click', (e) => {
+        e.preventDefault();
+        copyToClipboard('comet://extensions/shortcuts');
+      });
+    </script>
   </body>
 </html>
