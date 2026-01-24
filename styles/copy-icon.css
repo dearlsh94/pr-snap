@@ -1,0 +1,39 @@
+/**
+ * PR-Snap - Copy Icon Styles
+ * https://github.com/dearlsh94/pr-snap
+ *
+ * Copyright (c) 2025 Ethan (dearlsh94)
+ * This work is licensed under CC BY-NC-SA 4.0.
+ */
+
+.pr-snap-copy-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  margin-right: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+  color: #57606a;
+  transition: all 0.2s ease;
+}
+
+.pr-snap-copy-icon:hover {
+  background-color: #f3f4f6;
+  color: #0969da;
+}
+
+.pr-snap-icon {
+  display: block;
+}
+
+.pr-snap-copy-icon .icon-bg {
+  fill: #ffffff;
+}
+
+.pr-snap-copy-icon:hover .icon-bg {
+  fill: #f6f8fa;
+}
+

@@ -22,18 +22,26 @@
   "content_scripts": [
     {
       "matches": ["*://github.com/*/pull/*"],
-      "js": ["content.js", "popup.js"]
+      "css": ["styles/toast.css", "styles/copy-icon.css"],
+      "js": [
+        "scripts/shared/constants.js",
+        "scripts/shared/pr-parser.js",
+        "scripts/shared/clipboard.js",
+        "scripts/shared/toast.js",
+        "scripts/copy-icon.js",
+        "scripts/content.js"
+      ]
     }
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "scripts/background.js"
   },
   "commands": {
     "copy_pr_link_shortcut": {
       "suggested_key": {
         "default": "Ctrl+Shift+G"
       },
-      "description": "Copy GitHub PR ink"
+      "description": "Copy GitHub PR link"
     }
   }
 }
