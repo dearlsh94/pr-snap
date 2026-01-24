@@ -160,9 +160,22 @@ chrome.commands.onCommand.addListener((command) => {
           };
 
           try {
+            // GitHub의 다양한 PR 페이지 구조에 대응
+            const HEADER_SELECTORS = [
+              "h1.gh-header-title",                           // Conversation 탭 (기존 UI)
+              "h1[data-component='PH_Title']",                // Files Changed, Commits 탭 (새 UI)
+              "h1.prc-PageHeader-Title-p0Mgh",                // 새 UI 클래스명
+              ".gh-header-title",                             // 클래스만으로 찾기
+            ];
+
             const getHeaderElement = () => {
-              return document.querySelector("h1.gh-header-title");
+              for (const selector of HEADER_SELECTORS) {
+                const element = document.querySelector(selector);
+                if (element) return element;
+              }
+              return null;
             };
+
             const headerElement = getHeaderElement();
             if (!headerElement) {
               console.error(
@@ -170,17 +183,47 @@ chrome.commands.onCommand.addListener((command) => {
                 "background: #cf222e; color: white; padding: 2px 6px; border-radius: 4px;",
                 "color: #cf222e; font-weight: bold;"
               );
-              showToast("PR 정보를 찾을 수 없습니다.", false);
+              showToast("Failed to get PR information.", false);
               return;
             }
 
             const getTitle = (headerElement) => {
-              const titleTextEl = headerElement.querySelector("bdi");
-              return (titleTextEl.innerText || "NO TITLE")?.trim();
+              const titleSelectors = [
+                "bdi.js-issue-title",
+                ".markdown-title",
+                "bdi",
+                ".js-issue-title",
+              ];
+              for (const selector of titleSelectors) {
+                const titleEl = headerElement?.querySelector(selector);
+                if (titleEl?.innerText?.trim()) {
+                  return titleEl.innerText.trim();
+                }
+              }
+              return "NO TITLE";
             };
+
             const getTag = (headerElement) => {
-              const tagElement = headerElement.querySelector("span");
-              return (tagElement.innerText || "NO TAG")?.trim();
+              const tagSelectors = [
+                "span.f1-light",
+                "span.fgColor-muted",
+                "span.color-fg-muted",
+                "span.pl-2",
+              ];
+              for (const selector of tagSelectors) {
+                const tagEl = headerElement?.querySelector(selector);
+                if (tagEl?.innerText?.trim()) {
+                  return tagEl.innerText.trim();
+                }
+              }
+              const spans = headerElement?.querySelectorAll("span");
+              if (spans && spans.length > 0) {
+                const lastSpan = spans[spans.length - 1];
+                if (lastSpan?.innerText?.trim()) {
+                  return lastSpan.innerText.trim();
+                }
+              }
+              return "NO TAG";
             };
 
             const title = getTitle(headerElement);
