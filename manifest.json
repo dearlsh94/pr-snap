@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "pr-snap",
-  "version": "1.0",
+  "version": "1.1",
   "description": "PR-Snap is a Chrome extension that helps you quickly copy GitHub pull request links with titles in various formats for easy sharing.",
   "permissions": ["clipboardWrite", "activeTab", "scripting", "storage"],
   "icons": {
