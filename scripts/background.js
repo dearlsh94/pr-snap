@@ -196,8 +196,8 @@ const executeCopyScript = async (url) => {
       htmlText: null,
     }),
     plain: (title, tag, url) => ({
-      plainText: `${title} ${tag} - ${url}`,
-      htmlText: null,
+      plainText: `${title} ${tag}\n${url}`,
+      htmlText: `${title} ${tag}<br>${url}`,
     }),
   };
 
