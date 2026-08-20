@@ -19,8 +19,8 @@ const createClipboardData = {
     htmlText: null,
   }),
   plain: (title, tag, url) => ({
-    plainText: `${title} ${tag} - ${url}`,
-    htmlText: null,
+    plainText: `${title}\n${url}`,
+    htmlText: `${title}<br>${url}`,
   }),
 };
 
